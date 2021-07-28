@@ -36,6 +36,15 @@ message "Installing drmngr..."
 sudo apt install -y \
 	dirmngr
 
+message "Installing packages for stretch-lite..."
+sudo apt install -y \
+	build-essential \
+	libtool \
+	autoconf \
+	unzip \
+	wget \
+	git
+
 message "Adding ros pathes to ~/.bashrc..."
 if ! grep "source /opt/ros/melodic/setup.bash" ~/.bashrc
 	then echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
@@ -45,11 +54,7 @@ message "Adding ros repositories..."
 if ! grep "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" /etc/apt/sources.list.d/ros-latest.list
 	then sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 fi
-sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-
-# removed, headmelted build of code-oss does not run on pi zero
-# message "Adding codebuilds key..."
-# sudo wget -qO - https://packagecloud.io/headmelted/codebuilds/gpgkey | sudo apt-key add -;
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 
 message "Checking for updates again after repositories were added..."
 sudo apt update
@@ -100,7 +105,7 @@ sudo pip3 install numpy scipy tensorflow
 # All ROS Melodic Stretch Install Dependencies
 
 message "Installing ROS Melodic Desktop dependencies..."
-sudo apt install -y\
+sudo apt install -y \
 	python-opencv \
 	python-matplotlib \
 	python-sip-dev \
@@ -116,7 +121,7 @@ sudo apt install -y\
 	libgl1-mesa-dev \
 	libglu1-mesa-dev \
 	python-nose \
-	python-imaging \
+	python-pil \
 	libcurl4-openssl-dev \
 	curl \
 	libassimp-dev \
@@ -189,10 +194,10 @@ sudo apt-get install -y \
 #message "Installing adafruit servokit..."
 #sudo pip3 install adafruit-circuitpython-servokit
 
-#message "Installing gpizero libraries..."
-#sudo apt install -y \
-#	python-gpiozero \
-#	python3-gpiozero
+message "Installing gpizero libraries..."
+sudo apt install -y \
+	python-gpiozero \
+	python3-gpiozero
 
 message "Installing ROS compatible version of tinyxml2..."
 # required for rospack,
@@ -202,7 +207,7 @@ cd tinyxml2
 mkdir build
 cd build
 cmake ..
-make 
+make
 sudo make install
 cd ..
 cd ..
@@ -218,17 +223,6 @@ message "Installing precompiled arm6l compatible version of ros melodic + percep
 	curl -L -o ./ros_desktop.tar.bz2 "https://drive.google.com/uc?export=download&id=1ffIgOm6M6TicZbAcWjK7va_A33rBHrs4"
 #fi
 sudo tar xjf ./ros_desktop.tar.bz2 -C /
-# for some reason this is now required
-sudo cp /usr/local/lib/libtinyxml.so.7.0.1 /usr/ros/melodic/lib/libtinyxml.so.7
-
-#message "Installing precompiled version of Visual Studio Code (vscode-arm)...\n\
-# (although this currently will not run on the Zero because of electron)"
-# https://github.com/stevedesmond-ca/vscode-arm
-# https://www.raspberrypi.org/forums/viewtopic.php?t=191342#p1440607
-#cd ./install
-#wget https://github.com/stevedesmond-ca/vscode-arm/releases/download/1.28.2/vscode-1.28.2.deb
-#sudo apt install ./vscode-1.28.2.deb
-#cd ~/toddthequad
 
 message "Installing create_ap (Raspi as a wifi access point)..."
 # https://github.com/oblique/create_ap
@@ -250,7 +244,7 @@ sudo create_ap -n wlan0 pi rospberry --mkconfig /etc/create_ap.conf
 cd ..
 
 message "Adding desktop shortcut to autorun ifconfig to get IP address"
-mkdir ~/.config/autostart
+mkdir ~/.config/autostart -p
 cp ifconfig.desktop ~/.config/autostart/
 
 message "Initializing ROS workspace..."
