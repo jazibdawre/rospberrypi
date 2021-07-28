@@ -71,8 +71,8 @@ ___
     ```
 4. Open up a command prompt and type in the following commands.
     ```sh
-    git clone https://github.com/alansrobotlab/rosberrypizero
-    cd rosberrypizero
+    git clone https://github.com/jazibdawre/rospberrypi
+    cd rospberrypi
     ```
 5.  Read through the install script so you understand what you're about to do. (You're not the type of person that runs random scripts you download from the internet are you?)
     ```sh
@@ -110,7 +110,7 @@ ___
 9.  http://wiki.ros.org/ROS/Tutorials
 10. If you ever want to grab an updated version of this repository
     ```sh
-    cd ~/.rosberrypizero # whereever you cloned this repository
+    cd ~/.rospberrypi # whereever you cloned this repository
     git pull
     ```
 ___
