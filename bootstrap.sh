@@ -37,12 +37,8 @@ sudo apt install -y \
 	dirmngr
 
 message "Installing cmake-3.15.7..."
-mkdir ~/temp -p
-cp -r cmake-3.15.7 ~/temp/
-cd ~/temp/cmake-3.15.7/
-sudo make install
-cd $OLDPWD
-rm -rf ~/temp/cmake-3.15.7/
+wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/cmake_3.15.7-1_armhf.deb
+sudo dpkg -i --force-all ./cmake_3.15.7-1_armhf.deb
 
 message "Installing packages for stretch-lite..."
 sudo apt install -y \
@@ -200,14 +196,15 @@ sudo apt install -y \
 	python3-gpiozero
 
 message "Installing ROS compatible version of tinyxml2..."
-cd tinyxml2/build
-sudo make install
-cd ../..
+wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/tinyxml2_9.0.0-1_armhf.deb
+sudo dpkg -i --force-all ./tinyxml2_9.0.0-1_armhf.deb
 
 message "Installing precompiled arm6l compatible version of opencv3 (raspi 0,1,2 compatible)..."
+wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/opencv.deb
 sudo dpkg -i --force-all ./opencv.deb
 
 message "Installing precompiled arm6l compatible version of ros melodic + perception + robot + joy(stick)..."
+wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/ros_desktop.tar.bz2
 sudo tar xjf ./ros_desktop.tar.bz2 -C /
 
 message "Installing create_ap (Raspi as a wifi access point)..."
@@ -220,10 +217,9 @@ sudo apt install -y \
 	dnsmasq \
 	iptables
 
-cd create_ap
-sudo make install
+wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/create-ap_0.4.6-1_armhf.deb
+sudo dpkg -i --force-all ./create-ap_0.4.6-1_armhf.deb
 sudo create_ap -n wlan0 pi rospberry --mkconfig /etc/create_ap.conf
-cd ..
 
 message "Adding desktop shortcut to autorun ifconfig to get IP address"
 mkdir ~/.config/autostart -p
