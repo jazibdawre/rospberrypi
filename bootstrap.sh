@@ -36,6 +36,14 @@ message "Installing drmngr..."
 sudo apt install -y \
 	dirmngr
 
+message "Installing cmake-3.15.7..."
+mkdir ~/temp -p
+cp -r cmake-3.15.7 ~/temp/
+cd ~/temp/cmake-3.15.7/
+sudo make install
+cd $OLDPWD
+rm -rf ~/temp/cmake-3.15.7/
+
 message "Installing packages for stretch-lite..."
 sudo apt install -y \
 	build-essential \
@@ -98,11 +106,6 @@ sudo apt install -y \
 	libhdf5-dev \
 	libhdf5-cpp-100 \
 	caffe-cpu
-
-message "pip3 install of tensorflow..."
-sudo pip3 install numpy scipy tensorflow
-
-# All ROS Melodic Stretch Install Dependencies
 
 message "Installing ROS Melodic Desktop dependencies..."
 sudo apt install -y \
@@ -191,41 +194,23 @@ sudo apt-get install -y \
 	samba-common-bin \
 	smbclient cifs-utils
 
-#message "Installing adafruit servokit..."
-#sudo pip3 install adafruit-circuitpython-servokit
-
 message "Installing gpizero libraries..."
 sudo apt install -y \
 	python-gpiozero \
 	python3-gpiozero
 
 message "Installing ROS compatible version of tinyxml2..."
-# required for rospack,
-# https://answers.ros.org/question/278733/rospack-find-throws-exception-error/?answer=279421#post-id-279421
-git clone https://github.com/leethomason/tinyxml2.git
-cd tinyxml2
-mkdir build
-cd build
-cmake ..
-make
+cd tinyxml2/build
 sudo make install
-cd ..
-cd ..
+cd ../..
 
 message "Installing precompiled arm6l compatible version of opencv3 (raspi 0,1,2 compatible)..."
-#if [ ! -f ./opencv.deb]; then
-	curl -L -o ./opencv.deb "https://drive.google.com/uc?export=download&id=1i8RBgxMXuCMxyIPgjWoHWeX7xmEmuM23"
-#fi
 sudo dpkg -i --force-all ./opencv.deb
 
 message "Installing precompiled arm6l compatible version of ros melodic + perception + robot + joy(stick)..."
-#if [ ! -f ./install/ros_desktop.tar.bz2]; then
-	curl -L -o ./ros_desktop.tar.bz2 "https://drive.google.com/uc?export=download&id=1ffIgOm6M6TicZbAcWjK7va_A33rBHrs4"
-#fi
 sudo tar xjf ./ros_desktop.tar.bz2 -C /
 
 message "Installing create_ap (Raspi as a wifi access point)..."
-# https://github.com/oblique/create_ap
 sudo apt install -y \
 	util-linux \
 	procps \
@@ -235,12 +220,9 @@ sudo apt install -y \
 	dnsmasq \
 	iptables
 
-git clone https://github.com/oblique/create_ap
 cd create_ap
 sudo make install
 sudo create_ap -n wlan0 pi rospberry --mkconfig /etc/create_ap.conf
-#sudo systemctl enable create_ap
-#sudo systemctl start create_ap
 cd ..
 
 message "Adding desktop shortcut to autorun ifconfig to get IP address"
@@ -248,17 +230,13 @@ mkdir ~/.config/autostart -p
 cp ifconfig.desktop ~/.config/autostart/
 
 message "Initializing ROS workspace..."
-mkdir /home/pi/ros
+mkdir /home/pi/ros -p
 mkdir /home/pi/ros/src
 
 message "Configuring Samba filesharing..."
 sudo systemctl stop smbd
 sudo cp smb.conf /etc/samba/smb.conf
 sudo systemctl start smbd
-
-#message "Now, please enter in a samba (windows filesharing) password for use"
-#sudo smbpasswd -a pi
-#sudo systemctl start smbd
 
 message "\
 \n\
