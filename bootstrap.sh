@@ -49,11 +49,6 @@ sudo apt install -y \
 	wget \
 	git
 
-message "Adding ros pathes to ~/.bashrc..."
-if ! grep "source /opt/ros/melodic/setup.bash" ~/.bashrc
-	then echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-fi
-
 message "Adding ros repositories..."
 if ! grep "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" /etc/apt/sources.list.d/ros-latest.list
 	then sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -206,6 +201,11 @@ sudo dpkg -i --force-all ./opencv.deb
 message "Installing precompiled arm6l compatible version of ros melodic + perception + robot + joy(stick)..."
 wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/ros_desktop.tar.bz2
 sudo tar xjf ./ros_desktop.tar.bz2 -C /
+
+message "Adding ros pathes to ~/.bashrc..."
+if ! grep "source /opt/ros/melodic/setup.bash" ~/.bashrc
+	then echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+fi
 
 message "Installing create_ap (Raspi as a wifi access point)..."
 sudo apt install -y \
