@@ -28,7 +28,10 @@ sudo dphys-swapfile swapoff
 sudo cp dphys-swapfile /etc/dphys-swapfile
 sudo dphys-swapfile swapon
 
-message "Checking for updates..."
+message "Resetting apt..."
+sudo apt clean
+sudo rm -rf /var/lib/apt/lists/*
+sudo apt clean
 sudo apt update
 sudo apt upgrade -y
 
