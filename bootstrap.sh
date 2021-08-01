@@ -36,7 +36,7 @@ sudo apt update
 sudo apt upgrade -y
 
 message "Installing drmngr..."
-sudo apt install -y \
+sudo apt install -y -m \
 	dirmngr
 
 message "Installing cmake-3.15.7..."
@@ -44,7 +44,7 @@ wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/cmake_3.15.7-
 sudo dpkg -i --force-all ./cmake_3.15.7-1_armhf.deb
 
 message "Installing packages for stretch-lite..."
-sudo apt install -y \
+sudo apt install -y -m \
 	build-essential \
 	libtool \
 	autoconf \
@@ -63,7 +63,7 @@ sudo apt update
 sudo apt upgrade -y
 
 message "Installing ROS dependencies..."
-sudo apt install -y \
+sudo apt install -y -m \
 	python-rosdep \
 	python-rosinstall-generator \
 	python-wstool \
@@ -76,7 +76,7 @@ sudo rosdep init
 rosdep update
 
 message "Installing all opencv3 dependencies..."
-sudo apt install -y \
+sudo apt install -y -m \
 	build-essential \
 	cmake \
 	pkg-config \
@@ -102,7 +102,7 @@ sudo apt install -y \
 	caffe-cpu
 
 message "Installing ROS Melodic Desktop dependencies..."
-sudo apt install -y \
+sudo apt install -y -m \
 	python-opencv \
 	python-matplotlib \
 	python-sip-dev \
@@ -110,7 +110,6 @@ sudo apt install -y \
 	libqt5widgets5 \
 	libapr1-dev \
 	libaprutil1-dev \
-	libtinyxml2-dev \
 	qtbase5-dev \
 	liblz4-dev \
 	sbcl \
@@ -183,19 +182,19 @@ sudo apt install -y \
 	pkg-config
 
 message "Installing Samba filesharing tools..."
-sudo apt-get install -y \
+sudo apt-get install -y -m \
 	samba \
 	samba-common-bin \
 	smbclient cifs-utils
 
 message "Installing gpizero libraries..."
-sudo apt install -y \
+sudo apt install -y -m \
 	python-gpiozero \
 	python3-gpiozero
 
 message "Installing ROS compatible version of tinyxml2..."
-wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/tinyxml2_9.0.0-1_armhf.deb
-sudo dpkg -i --force-all ./tinyxml2_9.0.0-1_armhf.deb
+wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/tinyxml2_7.1.0-1_armhf.deb
+sudo dpkg -i --force-all ./tinyxml2_7.1.0-1_armhf.deb
 
 message "Installing precompiled arm6l compatible version of opencv3 (raspi 0,1,2 compatible)..."
 wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/opencv.deb
@@ -205,13 +204,16 @@ message "Installing precompiled arm6l compatible version of ros melodic + percep
 wget https://github.com/jazibdawre/rospberrypi-binaries/raw/master/ros_desktop.tar.bz2
 sudo tar xjf ./ros_desktop.tar.bz2 -C /
 
+message "Relinking dynamic libraries"
+sudo ldconfig
+
 message "Adding ros pathes to ~/.bashrc..."
 if ! grep "source /opt/ros/melodic/setup.bash" ~/.bashrc
 	then echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 fi
 
 message "Installing create_ap (Raspi as a wifi access point)..."
-sudo apt install -y \
+sudo apt install -y -m \
 	util-linux \
 	procps \
 	hostapd \
