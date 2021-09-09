@@ -2,6 +2,8 @@ ___
 # ROSpberryPi
 
 #### A quick and dirty way of bootstrapping ROS and some additional tools onto a Raspberry Pi Zero / W.  (well, maybe not quick, it still takes more than an hour to complete the script and get everything installed)
+
+> Compatible binaries are available at https://github.com/jazibdawre/rospberrypi-binaries
 ___
 ## FAQ:
 #### Why?
