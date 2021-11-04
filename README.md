@@ -45,7 +45,7 @@ ___
  - GPIZero libraries
  - Installs create_ap (ability to use raspi zero w as access point)
  - Initializes a ROS workspace
-  - Sets up a SAMBA Fileshare for the /home/pi/ros/src directory
+  - Sets up a SAMBA Fileshare for the /home/pi/catkin_ws/src directory
  - Sets up all env variables for ROS melodic and your ros workspace
 ___
 ## How to set this up
